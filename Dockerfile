@@ -1,6 +1,9 @@
 FROM php:7.3-apache-stretch
 
-RUN docker-php-ext-install pdo_mysql opcache \
+RUN apt-get -yqq update \
+	&& apt-get install -yqq libpng-dev zlib1g-dev
+
+RUN docker-php-ext-install pdo_mysql opcache mbstring zip gd \
 	&& a2enmod rewrite negotiation
 
 COPY php/php.ini /usr/local/etc/php/php.ini
