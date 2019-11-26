@@ -15,4 +15,6 @@ RUN apt-get -yqq update \
 	&& chmod +x /usr/local/bin/composer \
 	&& composer --version
 
+RUN composer global require hirak/prestissimo
+
 WORKDIR /srv/app
