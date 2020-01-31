@@ -7,7 +7,7 @@ FROM php:7.3-apache-stretch
 # II : Dépendances, extensions php et modules apache.
 # ----------------------------------------------------------------------------------------------------------------------
 RUN apt-get -yqq update \
-	&& apt-get install -yqq libpng-dev zlib1g-dev libzip-dev
+	&& apt-get install -yqq libpng-dev zlib1g-dev libzip-dev wget
 RUN docker-php-ext-install pdo_mysql opcache mbstring zip gd exif mbstring \
 	&& a2enmod rewrite negotiation
 #
@@ -49,5 +49,10 @@ RUN node -v
 RUN npm -v
 RUN npm i -g yarn
 RUN yarn -v
+#
+# 3 : Symfony / Laravel et cie.
+#
+RUN wget https://get.symfony.com/cli/installer -O - | bash
+RUN composer global require laravel/installer
 
 WORKDIR /srv/app
