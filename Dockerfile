@@ -7,7 +7,7 @@ FROM php:7.3-apache-stretch
 # II : Dépendances, extensions php et modules apache.
 # ----------------------------------------------------------------------------------------------------------------------
 RUN apt-get -yqq update \
-	&& apt-get install -yqq libpng-dev zlib1g-dev libzip-dev wget
+	&& apt-get install -yqq libpng-dev zlib1g-dev libzip-dev libicu-dev wget
 RUN docker-php-ext-install pdo_mysql opcache mbstring zip gd exif mbstring intl \
 	&& a2enmod rewrite negotiation
 #
