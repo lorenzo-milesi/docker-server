@@ -8,7 +8,7 @@ FROM php:7.3-apache-stretch
 # ----------------------------------------------------------------------------------------------------------------------
 RUN apt-get -yqq update \
 	&& apt-get install -yqq libpng-dev zlib1g-dev libzip-dev wget
-RUN docker-php-ext-install pdo_mysql opcache mbstring zip gd exif mbstring \
+RUN docker-php-ext-install pdo_mysql opcache mbstring zip gd exif mbstring intl \
 	&& a2enmod rewrite negotiation
 #
 # III : Fichiers de configuration.
@@ -54,5 +54,9 @@ RUN yarn -v
 #
 RUN wget https://get.symfony.com/cli/installer -O - | bash
 RUN composer global require laravel/installer
+#
+# 4 : Add bins to PATH
+#
+RUN echo 'PATH="$HOME/.composer/vendor/bin:$HOME/.symfony/bin:$PATH"' >> ~/.bashrc
 
 WORKDIR /srv/app
