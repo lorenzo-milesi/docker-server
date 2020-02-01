@@ -1,13 +1,18 @@
 #
 # I : Image de base.
 # ----------------------------------------------------------------------------------------------------------------------
-# php7.3 sur serveur apache
-FROM php:7.3-apache-stretch
+# php apache
+FROM php:7.4-apache-buster
 #
 # II : Dépendances, extensions php et modules apache.
 # ----------------------------------------------------------------------------------------------------------------------
-RUN apt-get -yqq update \
-	&& apt-get install -yqq libpng-dev zlib1g-dev libzip-dev libicu-dev wget
+RUN apt-get -yqq update && apt-get install -yqq \
+    libpng-dev \
+    zlib1g-dev \
+    libzip-dev \
+    libicu-dev \
+    libonig-dev \
+    wget
 RUN docker-php-ext-install pdo_mysql opcache mbstring zip gd exif mbstring intl \
 	&& a2enmod rewrite negotiation
 #
