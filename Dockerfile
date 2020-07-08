@@ -12,9 +12,13 @@ RUN apt-get -yqq update && apt-get install -yqq \
     libzip-dev \
     libicu-dev \
     libonig-dev \
+    libpq-dev \
     wget
 RUN docker-php-ext-install pdo_mysql pdo_pgsql opcache mbstring zip gd exif mbstring intl \
 	&& a2enmod rewrite negotiation
+RUN pecl install -o -f redis \
+    && rm -rf /tmp/pear \
+    && docker-php-ext-enable redis
 #
 # III : Fichiers de configuration.
 # ----------------------------------------------------------------------------------------------------------------------
