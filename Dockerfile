@@ -1,15 +1,24 @@
 #
 # I : Image de base.
 # ----------------------------------------------------------------------------------------------------------------------
-# php7.3 sur serveur apache
-FROM php:7.3-apache-stretch
+# php apache
+FROM php:7.4-apache-buster
 #
 # II : Dépendances, extensions php et modules apache.
 # ----------------------------------------------------------------------------------------------------------------------
-RUN apt-get -yqq update \
-	&& apt-get install -yqq libpng-dev zlib1g-dev libzip-dev
-RUN docker-php-ext-install pdo_mysql opcache mbstring zip gd exif mbstring \
+RUN apt-get -yqq update && apt-get install -yqq \
+    libpng-dev \
+    zlib1g-dev \
+    libzip-dev \
+    libicu-dev \
+    libonig-dev \
+    libpq-dev \
+    wget
+RUN docker-php-ext-install pdo_mysql pdo_pgsql opcache mbstring zip gd exif mbstring intl \
 	&& a2enmod rewrite negotiation
+RUN pecl install -o -f redis \
+    && rm -rf /tmp/pear \
+    && docker-php-ext-enable redis
 #
 # III : Fichiers de configuration.
 # ----------------------------------------------------------------------------------------------------------------------
@@ -49,5 +58,14 @@ RUN node -v
 RUN npm -v
 RUN npm i -g yarn
 RUN yarn -v
+#
+# 3 : Symfony / Laravel et cie.
+#
+RUN wget https://get.symfony.com/cli/installer -O - | bash
+RUN composer global require laravel/installer
+#
+# 4 : Add bins to PATH
+#
+RUN echo 'PATH="$HOME/.composer/vendor/bin:$HOME/.symfony/bin:$PATH"' >> ~/.bashrc
 
 WORKDIR /srv/app
