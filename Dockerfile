@@ -13,7 +13,7 @@ RUN apt-get -yqq update && apt-get install -yqq \
     libicu-dev \
     libonig-dev \
     wget
-RUN docker-php-ext-install pdo_mysql opcache mbstring zip gd exif mbstring intl \
+RUN docker-php-ext-install pdo_mysql pdo_pgsql opcache mbstring zip gd exif mbstring intl \
 	&& a2enmod rewrite negotiation
 #
 # III : Fichiers de configuration.
